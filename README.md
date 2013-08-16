@@ -7,19 +7,19 @@ An implementation which aims to bring the Twig template engine to Wordpress.
 
 For git users, clone the repo.
 
-    git clone --recursive https://github.com/jonasblomdin/Twig-Wordpress your-fancy-location
+    git clone --recursive https://github.com/jonasblomdin/Twig-Wordpress twig-wordpress
 
 For subversion users, add it as an external.
 
-    svn propset svn:externals your-fancy-location https://github.com/jonasblomdin/Twig-Wordpress/trunk
+    svn propset svn:externals twig-wordpress https://github.com/jonasblomdin/Twig-Wordpress/trunk
 
-Twig-Wordpress should than be bundled with your theme. The following example takes for granted that your-fancy-location has the name *twig-wordpress* inside your theme folder. You can than put this inside your *functions.php*.
+Twig-Wordpress should than be bundled with your theme. Put this inside your *functions.php*.
 
     require 'twig-wordpress/bootstrap.php';
  
 Your theme should contain a twig folder with the structure below. The structure could off course be overridden using the constants *before* you load the bootstrap.
 
-    theme
+    your-theme
       twig
         cache
         layouts
