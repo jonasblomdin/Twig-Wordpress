@@ -1,14 +1,14 @@
-twig-wordpress
+Twig-Wordpress
 ==============
 
 An implementation which aims to bring the Twig template engine to Wordpress.
 
 ##Install
-Twig-Wordpress should be bundled with your theme. The folowing examples takes for granted that your theme has this library in a folder named twig-wordpress.
+Twig-Wordpress should be bundled with your theme. The folowing examples takes for granted that your theme has this library in a folder named *twig-wordpress*.
 
-    require 'twig-wordpress/bootsrap.php';
+    require 'twig-wordpress/bootstrap.php';
  
-Your theme should contain a twig folder with the structure below. The structure could off course be overridden using the constants before you load the bootstrap.
+Your theme should contain a twig folder with the structure below. The structure could off course be overridden using the constants *before* you load the bootstrap.
 
     theme
       twig
@@ -28,7 +28,7 @@ Default set to a folder named "twig", including a trailing slash , within your t
 Default set to a folder named "templates", with no traling slash, within your TWP___THEME_ROOT.
 
 #####TWP___CACHE_PATH
-If Twig cache should Needs to be a writable, by the server, folder
+A writeable folder for your cache.
 
 ## Actions
 
