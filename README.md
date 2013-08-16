@@ -4,7 +4,16 @@ Twig-Wordpress
 An implementation which aims to bring the Twig template engine to Wordpress.
 
 ##Install
-Twig-Wordpress should be bundled with your theme. The folowing examples takes for granted that your theme has this library in a folder named *twig-wordpress*.
+
+For git users, clone the repo.
+
+    git clone --recursive https://github.com/jonasblomdin/Twig-Wordpress your-fancy-location
+
+For subversion users, add it as an external.
+
+    svn propset svn:externals your-fancy-location https://github.com/jonasblomdin/Twig-Wordpress/trunk
+
+Twig-Wordpress should than be bundled with your theme. The following example takes for granted that your-fancy-location has the name *twig-wordpress* inside your theme folder. You can than put this inside your *functions.php*.
 
     require 'twig-wordpress/bootstrap.php';
  
@@ -33,7 +42,6 @@ A writeable folder for your cache.
 ## Actions
 
 #####TWP__init
-
     function my_init($twig, $data)
     {
       $twig->addExtension(new Twig_Extension_Debug());
@@ -41,7 +49,6 @@ A writeable folder for your cache.
     add_action('TWP__init', 'my_init', 1, 2);
 
 #####TWP__environemnt
-
     function my_environemnt($environment)
     {
       $environment->addFunction('query_posts', new Twig_Function_Function('query_posts'));
@@ -49,13 +56,12 @@ A writeable folder for your cache.
     add_action('TWP__environemnt', 'my_environemnt');
 
 #####TWP__template
-    
     function my_template($name, $index)
     {
       return $name;
     }
     add_action('TWP__template', 'my_template', 1, 2);
-    
+
 ## Filters
 
 #####TWP__template_404
