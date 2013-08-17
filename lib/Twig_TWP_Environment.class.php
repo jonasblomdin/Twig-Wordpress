@@ -2,12 +2,6 @@
 
 /**
  *
- * Load dependencies
- */
-require_once sprintf('%s/vendor/Twig/lib/Twig/Environment.php', get_template_directory());
-
-/**
- *
  * Twig-Wordpress Environment
  */
 class Twig_TWP_Environment extends Twig_Environment
@@ -38,7 +32,7 @@ class Twig_TWP_Environment extends Twig_Environment
    */
   public function loadTemplate($name, $index = null)
 	{
-		$name = do_filter('TWP__template', $name, $index);
-		return parent::loadTemplate($name, $index);
+		$name = apply_filters('TWP__template', $name, $index);
+    return parent::loadTemplate($name, $index);
 	}
 }
