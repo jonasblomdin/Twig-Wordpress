@@ -5,7 +5,7 @@
  *
  * @author Jonas Blomdin <jonas@hoku.am>
  */
-namespace TWP;
+#namespace TWP;
 
 /**
  *
@@ -18,13 +18,18 @@ define('TWP_ROOT', dirname(__FILE__));
  * Customizable constants
  */
 if (!defined('TWP___THEME_ROOT') || !is_dir(TWP___THEME_ROOT)) {
+  if (!is_dir(get_template_directory().'/twig/')) {
+    trigger_error('Create the twig folder. Check TWP___THEME_ROOT for more information', E_USER_ERROR);
+  }
   define('TWP___THEME_ROOT', get_template_directory().'/twig/');
 }
 if (!defined('TWP___TEMPLATE_PATH') || !is_dir(TWP___TEMPLATE_PATH)) {
-  define('TWP___TEMPLATE_PATH', TWP___THEME_ROOT.'templates');
+  if (!is_dir(TWP___THEME_ROOT.'templates/')) {
+    trigger_error('Create the template folder. Check the TWP___TEMPLATE_PATH for more information.', E_USER_ERROR);
+  }
+  define('TWP___TEMPLATE_PATH', TWP___THEME_ROOT.'templates/');
 }
 if (defined('TWP___CACHE_PATH') && !is_writable(TWP___CACHE_PATH)) {
-  unset(TWP___CACHE_PATH);
   trigger_error('Twig cache path is not writeable', E_USER_ERROR);
 }
 
@@ -112,10 +117,11 @@ require_once dirname(__FILE__).'/vendor/Twig/lib/Twig/Autoloader.php';
  *
  * Autoload dependencies
  */
-function __autoload($name)
-{
-  require_once 'lib/'.$name.'.class.php';
-}
+spl_autoload_register(function($name) {
+  if (file_exists(TWP_ROOT.'/lib/'.$name.'.class.php')) {
+    require_once TWP_ROOT.'/lib/'.$name.'.class.php';
+  }
+});
 
 /**
  *
@@ -131,10 +137,10 @@ function TWP__init()
 	Twig_TWP_Proxy::register();
   
 	$twig = new Twig_TWP_Environment(
-    new Twig_Loader_Filesystem(get_template_directory()), 
+    new Twig_Loader_Filesystem(TWP___TEMPLATE_PATH), 
     array(
 		  'debug' => defined('TWP___DEBUG') ? TWP___DEBUG : WP_DEBUG,
-		  'cache' => defined('TWP___CACHE_PATH') ? TWP___CACHE_PATH : false,
+		  'cache' => defined('TWP___CACHE_PATH') ? TWP___CACHE_PATH : false)
   );
 	$data = array(
 		'wp' => new Twig_TWP_Proxy,
@@ -254,7 +260,7 @@ function TWP__template()
       break;
   }
   $templates[] = TWP___TEMPLATE_INDEX;
-    
+
 	foreach ($templates as $template)
 	{
 		if (file_exists($template)) {
@@ -273,6 +279,6 @@ add_action('template_redirect', 'TWP__template');
  */
 function TWP_index() 
 {
-  return dirname(FILE).'/index.php';
+  return dirname(__FILE__).'/index.php';
 }
 add_filter('template_include', 'TWP_index', 9999);
