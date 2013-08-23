@@ -5,7 +5,6 @@
  *
  * @author Jonas Blomdin <jonas@hoku.am>
  */
-#namespace TWP;
 
 /**
  *
