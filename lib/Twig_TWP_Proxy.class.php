@@ -9,42 +9,19 @@ class Twig_TWP_Proxy
 	
 	/**
 	 *
-	 * Twig registration
+	 * Registration
 	 *
 	 * @static
 	 * @access public
 	 * @return void
 	 */
 	public static function register()
-	{
-		ini_set('unserialize_callback_func', 'spl_autoload_call');
-		spl_autoload_register(array(new self, 'autoload'));
+  {
 	}
 	
 	/**
 	 *
-	 * Twig autoloader
-	 *
-	 * @static
-	 * @access public
-	 * @param string $class
-	 * @return mixed
-	 */
-	public static function autoload($class)
-	{
-		if (0 !== strpos($class, 'Twig_TWP')) 
-			return;
-
-		if (file_exists($file = dirname(__FILE__) . '/../' . str_replace(array('_', "\0"), array('/', ''), $class) . '.php')) {
-			echo($file);
-			exit;
-			require $file;
-		}
-	}
-	
-	/**
-	 *
-	 * Twig proxy
+	 * Proxy calls
 	 *
 	 * @access public
 	 * @param string $function
@@ -54,7 +31,7 @@ class Twig_TWP_Proxy
 	public function __call($function, $arguments)
 	{
 		if (!function_exists($function)) {
-			trigger_error('call to unexisting function ' . $function, E_USER_ERROR);
+			trigger_error('Call to unexisting Worpdress function ' . $function, E_USER_ERROR);
 			return NULL;
 		}
 		return call_user_func_array($function, $arguments);
