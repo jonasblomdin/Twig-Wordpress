@@ -44,10 +44,10 @@ define(
   TWP___TEMPLATE_PATH.apply_filters('TWP__template_search', 'search.html.twig'));
 define(
   'TWP___TEMPLATE_TAX', 
-  TWP___TEMPLATE_PATH.apply_filters('TWP__template_tax', 'tax.html.twig'));
+  TWP___TEMPLATE_PATH.apply_filters('TWP__template_tax', 'taxonomy.html.twig'));
 define(
   'TWP___TEMPLATE_TAX_OVERRIDE', 
-  TWP___TEMPLATE_PATH.apply_filters('TWP__template_tax-override', 'tax-%s.html.twig'));
+  TWP___TEMPLATE_PATH.apply_filters('TWP__template_tax-override', 'taxonomy-%s.html.twig'));
 define(
   'TWP___TEMPLATE_FRONT_PAGE', 
   TWP___TEMPLATE_PATH.apply_filters('TWP__template_front-page', 'front.html.twig'));
@@ -153,14 +153,14 @@ add_action('init', 'TWP__init', 10, 2);
 /**
  *
  * Setup templates
- * The original tests makes file-exist conditions based on the non Twig template, so we need to re-run the tests
+ * The original tests makes file-exist conditions based on the Wordpress template, so we need to re-run the tests
  *
  * @see wp-includes/template-loader.php
  * @return void
  */
 function TWP__template()
 {
-	global $tpl, $post;
+	global $tpl, $post, $posts;
 
 	$templates = array();
   switch(true)
@@ -176,6 +176,7 @@ function TWP__template()
 			  $templates[] = sprintf(TWP___TEMPLATE_TAX_OVERRIDE, $taxonomy);
 		  }
 		  $templates[] = TWP___TEMPLATE_TAX;
+      $templates[] = TWP___TEMPLATE_ARCHIVE;
       break;
     case is_front_page():
       $templates[] = TWP___TEMPLATE_FRONT_PAGE;
@@ -184,7 +185,22 @@ function TWP__template()
       $templates[] = TWP___TEMPLATE_HOME;
       break;
     case is_attachment():
+  	  if (!empty($posts) && isset($posts[0]->post_mime_type)) {
+  		  $type = explode('/', $posts[0]->post_mime_type);
+  		  if (!empty($type)) {
+  			  if ($template = get_query_template($type[0]))
+  				  return $template;
+  			  elseif (!empty($type[1])) {
+  				  if ($template = get_query_template($type[1]))
+  					  return $template;
+  				  elseif ($template = get_query_template("$type[0]_$type[1]"))
+  					  return $template;
+  			  }
+  		  }
+  	  }
       $templates[] = TWP___TEMPLATE_ATTACHMENT;
+      $templates[] = sprintf(TWP___TEMPLATE_SINGLE_OVERRIDE, 'attachment');
+      $templates[] = TWP___TEMPLATE_SINGLE;
       break;
     case is_single():
   		$object = get_queried_object();
@@ -223,6 +239,7 @@ function TWP__template()
 			  $templates[] = sprintf(TWP___TEMPLATE_CATEGORY_OVERRIDE, $category->term_id);
 		  }
 		  $templates[] = TWP___TEMPLATE_CATEGORY;
+      $templates[] = TWP___TEMPLATE_ARCHIVE;
       break;
     case is_tag():
 		  $tag = get_queried_object();
@@ -231,6 +248,7 @@ function TWP__template()
 			  $templates[] = sprintf(TWP___TEMPLATE_TAG_OVERRIDE, $tag->term_id);
 		  }
 		  $templates[] = TWP___TEMPLATE_TAG;
+      $templates[] = TWP___TEMPLATE_ARCHIVE;
       break;
     case is_author():
 		  $author = get_queried_object();
@@ -239,9 +257,11 @@ function TWP__template()
 			  $templates[] = sprintf(TWP___TEMPLATE_AUTHOR_OVERRIDE, $author->ID);
 		  }
 		  $templates[] = TWP___TEMPLATE_AUTHOR;
+      $templates[] = TWP___TEMPLATE_ARCHIVE;
       break;
     case is_date():
       $templates[] = TWP___TEMPLATE_DATE;
+      $templates[] = TWP___TEMPLATE_ARCHIVE;
       break;
     case is_archive():
 		  $post_types = array_filter((array) get_query_var('post_type'));
