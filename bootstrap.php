@@ -135,11 +135,13 @@ function TWP__init()
 	Twig_Autoloader::register();
 	Twig_TWP_Proxy::register();
   
+  $options = array(
+    'debug' => defined('TWP___DEBUG') ? TWP___DEBUG : WP_DEBUG,
+    'cache' => defined('TWP___CACHE_PATH') ? TWP___CACHE_PATH : false
+  );
 	$twig = new Twig_TWP_Environment(
     new Twig_Loader_Filesystem(TWP___TEMPLATE_PATH), 
-    array(
-		  'debug' => defined('TWP___DEBUG') ? TWP___DEBUG : WP_DEBUG,
-		  'cache' => defined('TWP___CACHE_PATH') ? TWP___CACHE_PATH : false)
+    apply_filters('TWP__options', $options)
   );
 	$data = array(
 		'wp' => new Twig_TWP_Proxy,
