@@ -44,10 +44,10 @@ define(
   TWP___TEMPLATE_PATH.apply_filters('TWP__template_search', 'search.html.twig'));
 define(
   'TWP___TEMPLATE_TAX', 
-  TWP___TEMPLATE_PATH.apply_filters('TWP__template_tax', 'taxonomy.html.twig'));
+  TWP___TEMPLATE_PATH.apply_filters('TWP__template_taxonomy', 'taxonomy.html.twig'));
 define(
   'TWP___TEMPLATE_TAX_OVERRIDE', 
-  TWP___TEMPLATE_PATH.apply_filters('TWP__template_tax-override', 'taxonomy-%s.html.twig'));
+  TWP___TEMPLATE_PATH.apply_filters('TWP__template_taxonomy-override', 'taxonomy-%s.html.twig'));
 define(
   'TWP___TEMPLATE_FRONT_PAGE', 
   TWP___TEMPLATE_PATH.apply_filters('TWP__template_front-page', 'front.html.twig'));
