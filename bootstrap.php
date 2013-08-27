@@ -16,20 +16,23 @@ define('TWP_ROOT', dirname(__FILE__));
  *
  * Customizable constants
  */
-if (!defined('TWP___THEME_ROOT') || !is_dir(TWP___THEME_ROOT)) {
-  if (!is_dir(get_template_directory().'/twig/')) {
-    trigger_error('Create the twig folder. Check TWP___THEME_ROOT for more information', E_USER_ERROR);
+if (!defined('TWP___TWIG_ROOT') || !is_dir(TWP___TWIG_ROOT)) {
+  if (defined('TWP___TWIG_ROOT') && !is_dir(TWP___TWIG_ROOT)) {
+    trigger_error('Make sure your Twig root folder has been created. Check TWP___TWIG_ROOT for more information.', E_USER_ERROR);
   }
-  define('TWP___THEME_ROOT', get_template_directory().'/twig/');
+  define('TWP___TWIG_ROOT', TWP_ROOT.'/twig/');
 }
 if (!defined('TWP___TEMPLATE_PATH') || !is_dir(TWP___TEMPLATE_PATH)) {
-  if (!is_dir(TWP___THEME_ROOT.'templates/')) {
-    trigger_error('Create the template folder. Check the TWP___TEMPLATE_PATH for more information.', E_USER_ERROR);
+  if (!is_dir(TWP___TWIG_ROOT.'templates/')) {
+    trigger_error('Make sure your Twig template folder has been created. Check the TWP___TEMPLATE_PATH for more information.', E_USER_ERROR);
   }
-  define('TWP___TEMPLATE_PATH', TWP___THEME_ROOT.'templates/');
+  define('TWP___TEMPLATE_PATH', TWP___TWIG_ROOT.'templates/');
 }
 if (defined('TWP___CACHE_PATH') && !is_writable(TWP___CACHE_PATH)) {
   trigger_error('Twig cache path is not writeable', E_USER_ERROR);
+}
+if (!defined('TWP___ADMIN')) {
+  define('TWP___ADMIN', true);
 }
 
 /**
@@ -124,7 +127,7 @@ spl_autoload_register(function($name) {
 
 /**
  *
- * Instantiate environment
+ * Instantiate Twig environment
  *
  * @return void
  */
@@ -154,7 +157,29 @@ add_action('init', 'TWP__init', 10, 2);
 
 /**
  *
- * Setup templates
+ * Add admin menu to clear Twig cache
+ *
+ * @return void
+ */
+function TWP__admin_menu()
+{
+  add_menu_page(
+    __('Twig'),
+    __('Twig'),
+    'manage_options',
+    'twig',
+    array(new Twig_TWP_Admin, 'render'),
+    '',
+    3);
+}
+if (defined('TWP___CACHE_PATH') && TWP___ADMIN) {
+  add_action('admin_menu', 'TWP__admin_menu');
+}
+
+
+/**
+ *
+ * Setup Twig templates
  * The original tests makes file-exist conditions based on the Wordpress template, so we need to re-run the tests
  *
  * @see wp-includes/template-loader.php
