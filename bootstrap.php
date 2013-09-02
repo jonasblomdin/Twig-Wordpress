@@ -192,13 +192,15 @@ function TWP__metabox()
   if ($types = unserialize(TWP___CUSTOM_TEMPLATE_TYPES)) {
     foreach ($types as $type)
     {
-      add_meta_box(
-        'TWP__template',
-        __('Custom Template'),
-       array(new Twig_TWP_Admin, 'renderMetabox'),
-        $type,
-        'side'
-      );
+      if (count(Twig_TWP_Admin::getTemplates($type)) > 0) {
+        add_meta_box(
+          'TWP__template',
+          __('Custom Template'),
+         array(new Twig_TWP_Admin, 'renderMetabox'),
+          $type,
+          'side'
+        );
+      }
     }
   }
 }

@@ -81,12 +81,14 @@ class Twig_TWP_Admin
    * Retrive templates
    *
    * @todo Get comment tags by Twig lexer instead of using defaults
-   * @access private
+   * @static
+   * @access public
+   * @param string $post_type Defaults to null
    * @return array
    */
-  private function getTemplates()
+  public static function getTemplates($post_type = null)
   {
-    $files = (array) $this->scandir(TWP___TEMPLATE_PATH, 'twig', -1);
+    $files = (array) self::scandir(TWP___TEMPLATE_PATH, 'twig', -1);
     foreach ($files as $file => $path)
     {
       if (!preg_match('|Template Name:(.*)$|mi', file_get_contents($path), $header)) {
@@ -94,10 +96,11 @@ class Twig_TWP_Admin
       }
       if (preg_match('|Post Type:(.*)$|mi', file_get_contents($path), $post_types)) {
         global $post;
+        $post_type = $post_type ? $post_type : $post->post_type;
         $post_types = array_map(function($item) {
           return strtolower(trim($item));
         }, explode(',', $post_types[1]));
-        if (!in_array($post->post_type, $post_types)) {
+        if (!in_array($post_type, $post_types)) {
           continue;
         }
       }
@@ -132,7 +135,7 @@ class Twig_TWP_Admin
 	 *
    * @see WP_Theme::scandir
 	 */
-	private function scandir($path, $extensions = null, $depth = 0, $relative_path = '')
+	private static function scandir($path, $extensions = null, $depth = 0, $relative_path = '')
   {
 		if (!is_dir($path))
 			return false;
