@@ -89,8 +89,18 @@ class Twig_TWP_Admin
     $files = (array) $this->scandir(TWP___TEMPLATE_PATH, 'twig', -1);
     foreach ($files as $file => $path)
     {
-      if (!preg_match('|Template Name:(.*)$|mi', file_get_contents($path), $header))
+      if (!preg_match('|Template Name:(.*)$|mi', file_get_contents($path), $header)) {
         continue;
+      }
+      if (preg_match('|Post Type:(.*)$|mi', file_get_contents($path), $post_types)) {
+        global $post;
+        $post_types = array_map(function($item) {
+          return strtolower(trim($item));
+        }, explode(',', $post_types[1]));
+        if (!in_array($post->post_type, $post_types)) {
+          continue;
+        }
+      }
       $header = trim(preg_replace("/\s*(?:\*\/|#}).*/", '', $header[1]));
       $page_templates[$file] = $header;
     }
