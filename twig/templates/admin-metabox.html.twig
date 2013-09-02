@@ -1,0 +1,9 @@
+<label class="screen-reader-text" for="{{ name }}">
+  {{ wp.__('Custom Template') }}
+</label>
+<select name="{{ name }}">
+  <option value="">{{ wp.__('Default Template') }}</option>
+{% for file, name in templates %}
+  <option value="{{ file }}">{{ name }}</option>
+{% endfor %}
+</select>

@@ -4,4 +4,4 @@
  * Load and display template
  */
 $template = $twig->loadTemplate($tpl);
-$template->display($data);
+$template->display($params);

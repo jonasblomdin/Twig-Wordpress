@@ -10,7 +10,8 @@
  *
  * Environmental constants
  */
-define('TWP_ROOT', dirname(__FILE__));
+define('TWP___ROOT', dirname(__FILE__));
+define('TWP___CUSTOM_TEMPLATE', '_wp_twig_template');
 
 /**
  *
@@ -20,7 +21,7 @@ if (!defined('TWP___TWIG_ROOT') || !is_dir(TWP___TWIG_ROOT)) {
   if (defined('TWP___TWIG_ROOT') && !is_dir(TWP___TWIG_ROOT)) {
     trigger_error('Make sure your Twig root folder has been created. Check TWP___TWIG_ROOT for more information.', E_USER_ERROR);
   }
-  define('TWP___TWIG_ROOT', TWP_ROOT.'/twig/');
+  define('TWP___TWIG_ROOT', TWP___ROOT.'/twig/');
 }
 if (!defined('TWP___TEMPLATE_PATH') || !is_dir(TWP___TEMPLATE_PATH)) {
   if (!is_dir(TWP___TWIG_ROOT.'templates/')) {
@@ -33,6 +34,10 @@ if (defined('TWP___CACHE_PATH') && !is_writable(TWP___CACHE_PATH)) {
 }
 if (!defined('TWP___ADMIN')) {
   define('TWP___ADMIN', true);
+}
+if (!defined('TWP___CUSTOM_TEMPLATE_TYPES')) {
+  define('TWP___CUSTOM_TEMPLATE_TYPES', serialize(
+    array('page', 'post')));
 }
 
 /**
@@ -120,8 +125,8 @@ require_once dirname(__FILE__).'/vendor/Twig/lib/Twig/Autoloader.php';
  * Autoload dependencies
  */
 spl_autoload_register(function($name) {
-  if (file_exists(TWP_ROOT.'/lib/'.$name.'.class.php')) {
-    require_once TWP_ROOT.'/lib/'.$name.'.class.php';
+  if (file_exists(TWP___ROOT.'/lib/'.$name.'.class.php')) {
+    require_once TWP___ROOT.'/lib/'.$name.'.class.php';
   }
 });
 
@@ -133,7 +138,7 @@ spl_autoload_register(function($name) {
  */
 function TWP__init()
 {
-	global $twig, $data;
+	global $twig, $params;
   
 	Twig_Autoloader::register();
 	Twig_TWP_Proxy::register();
@@ -146,12 +151,12 @@ function TWP__init()
     new Twig_Loader_Filesystem(TWP___TEMPLATE_PATH), 
     apply_filters('TWP__options', $options)
   );
-	$data = array(
+	$params = array(
 		'wp' => new Twig_TWP_Proxy,
 		'loop' => new Twig_TWP_Loop
   );
   
-  do_action('TWP__init', $twig, $data);
+  do_action('TWP__init', $twig, $params);
 }
 add_action('init', 'TWP__init', 10, 2);
 
@@ -168,7 +173,7 @@ function TWP__admin_menu()
     __('Twig'),
     'manage_options',
     'twig',
-    array(new Twig_TWP_Admin, 'render'),
+    array(new Twig_TWP_Admin, 'renderCache'),
     '',
     3);
 }
@@ -176,6 +181,31 @@ if (defined('TWP___CACHE_PATH') && TWP___ADMIN) {
   add_action('admin_menu', 'TWP__admin_menu');
 }
 
+/**
+ *
+ * Add custom template metabox
+ *
+ * @return void
+ */
+function TWP__metabox()
+{
+  if ($types = unserialize(TWP___CUSTOM_TEMPLATE_TYPES)) {
+    foreach ($types as $type)
+    {
+      add_meta_box(
+        'TWP__template',
+        __('Custom Template'),
+       array(new Twig_TWP_Admin, 'renderMetabox'),
+        $type,
+        'side'
+      );
+    }
+  }
+}
+if (defined('TWP___CUSTOM_TEMPLATE_TYPES') && TWP___CUSTOM_TEMPLATE_TYPES) {
+  add_action('add_meta_boxes', 'TWP__metabox');
+  add_action('save_post', array(new Twig_TWP_Admin, 'saveMetabox'));
+}
 
 /**
  *
@@ -231,7 +261,7 @@ function TWP__template()
       break;
     case is_single():
   		$object = get_queried_object();
-  		$custom = get_post_meta($post->ID, TWP___CUSTOM_FIELD_TEMPLATE, true);
+  		$custom = get_post_meta($post->ID, TWP___CUSTOM_TEMPLATE, true);
   		if ($custom && 0 === validate_file(TWP___TEMPLATE_PATH.$custom)) {
   			$templates[] = TWP___TEMPLATE_PATH.$custom;
   		}
@@ -242,7 +272,7 @@ function TWP__template()
       break;
     case is_page():
   		$id = get_queried_object_id();
-  		$custom = get_post_meta($post->ID, TWP___CUSTOM_FIELD_TEMPLATE, true);
+  		$custom = get_post_meta($post->ID, TWP___CUSTOM_TEMPLATE, true);
   		$pagename = get_query_var('pagename');
   		if (!$pagename && $id) {
   			$post = get_queried_object();
