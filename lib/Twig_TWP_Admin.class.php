@@ -49,7 +49,7 @@ class Twig_TWP_Admin
       'nonce' => wp_nonce_field(-1, $this->nonce),
       'name' => TWP___CUSTOM_TEMPLATE,
       'value' => get_post_meta($post->ID, TWP___CUSTOM_TEMPLATE, true),
-      'templates' => $this->getTemplates());
+      'templates' => self::getTemplates());
     $twig->setCache(false);
     $twig->setLoader(new Twig_Loader_Filesystem(sprintf('%s/twig/templates/', TWP___ROOT)));
     $twig->display('admin-metabox.html.twig', $params);
@@ -78,7 +78,7 @@ class Twig_TWP_Admin
   
   /**
    *
-   * Retrive templates
+   * Retrieve templates
    *
    * @todo Get comment tags by Twig lexer instead of using defaults
    * @static
@@ -88,6 +88,7 @@ class Twig_TWP_Admin
    */
   public static function getTemplates($post_type = null)
   {
+    $templates = array();
     $files = (array) self::scandir(TWP___TEMPLATE_PATH, 'twig', -1);
     foreach ($files as $file => $path)
     {
@@ -105,9 +106,9 @@ class Twig_TWP_Admin
         }
       }
       $header = trim(preg_replace("/\s*(?:\*\/|#}).*/", '', $header[1]));
-      $page_templates[$file] = $header;
+      $templates[$file] = $header;
     }
-    return $page_templates;
+    return $templates;
   }
   
   /**
@@ -159,7 +160,7 @@ class Twig_TWP_Admin
 			if (is_dir($path . '/' . $result)) {
 				if (!$depth || 'CVS' == $result)
 					continue;
-				$found = $this->scandir($path . '/' . $result, $extensions, $depth - 1 , $relative_path . $result);
+				$found = self::scandir($path . '/' . $result, $extensions, $depth - 1 , $relative_path . $result);
 				$files = array_merge_recursive($files, $found);
 			} elseif (!$extensions || preg_match('~\.(' . $_extensions . ')$~', $result)) {
 				$files[$relative_path . $result] = $path . '/' . $result;
