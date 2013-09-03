@@ -5,9 +5,9 @@ An implementation which aims to bring the [Twig Template Engine](http://twig.sen
 
 ##Install
 
-Twig-Wordpress is supposed to be required from your theme and comes with Twig as a submodule.  
-So start by downloading the source into the theme you want to use Twig in.  
-For git users, clone the repo.
+Twig-Wordpress should be required from your theme and comes with Twig as a submodule.  
+Download the source into the theme you want to use Twig in.  
+For git users, clone the repository.
 ```bash
 git clone --recursive https://github.com/jonasblomdin/Twig-Wordpress twig-wordpress
 ```
@@ -15,21 +15,26 @@ For subversion users, add it as an external.
 ```bash
 svn propset svn:externals twig-wordpress https://github.com/jonasblomdin/Twig-Wordpress/trunk
 ```
-Load the bootstrap. Put this inside your *functions.php*.
-```php
-require 'twig-wordpress/bootstrap.php';
-```
-Your theme should contain a folder with the structure below. The structure could of course be overridden using the [constants](#constants) *before* you load the bootstrap.  
-To get started, put an index template in your templates folder. 
+To get started, we create the folder structure that's' necessary for Twig-Wordpress to work.   
+You can change this to whatever you like.
 
     your-theme
       twig
         templates
           index.html.twig
+          ..
+
+Define your constants and load the bootstrap.  
+To match the folder structure above, put this inside your *functions.php*.
+```php
+define('TWP___TWIG_ROOT', get_template_directory().'/twig/');
+define('TWP___TEMPLATE_PATH', TWP___TWIG_ROOT.'templates/'); // This could be omitted because it's the default
+require 'twig-wordpress/bootstrap.php';
+```
 
 ##Templates
 
-The [Template Hierarchy](http://codex.wordpress.org/Template_Hierarchy) used is the same as the original for Wordpress. The file extension is twig though, instead of php.  
+The [Template Hierarchy](http://codex.wordpress.org/Template_Hierarchy) used is the same as for Wordpress. The file extension is twig though, instead of php.  
 The bootstrap loads the correct template based on it's hierarchy and if the template file exists. So make sure your template exists in your [TWP___TEMPLATE_PATH](#twp___template_path).
 
 #####Using The Loop
@@ -158,7 +163,7 @@ add_filter('TWP__template', 'my_template', 1, 2);
 ```
 
 #####TWP\__template\_(type)
-The template filters runs when the default Twig templates gets declared.  
+The template filters runs when the default Twig templates are declared.  
 This example changes the 404 template name to *not-found.html.twig*.
 ```php
 function my_404_template($filename)
@@ -188,9 +193,9 @@ The following template filters are available.
 - TWP\__template\_index
 
 #####TWP\__template\_(type)-override
-The override template filter runs when the Twig templates, wihich override the defaults, gets declared.  
-Note that each overridable template filter need to include '%s', which replaces the corresponding object.  
-This example changes the taxonomy override template, which now can be found in the folder *override*.
+The override template filter runs when the Twig templates, wihich override the defaults, are declared.  
+Note that each overridable template filter need to include "%s", which is a placeholder for the object property.  
+This example changes the taxonomy override template, which now can be found in the folder "override".
 ```php
 function my_taxonomy_template_override($filename)
 {
