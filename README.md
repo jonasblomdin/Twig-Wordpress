@@ -29,8 +29,8 @@ To get started, put an index template in your templates folder.
 
 ##Templates
 
-The [Template Hierarchy](http://codex.wordpress.org/Template_Hierarchy) used is the same as the original for Wordpress. The file extension is html.twig though, instead of php.  
-The bootstrap loads the correct template based on it's hiarchy and if the template file exists. So make sure your template exists in your [TWP___TEMPLATE_PATH](#twp___template_path).
+The [Template Hierarchy](http://codex.wordpress.org/Template_Hierarchy) used is the same as the original for Wordpress. The file extension is twig though, instead of php.  
+The bootstrap loads the correct template based on it's hierarchy and if the template file exists. So make sure your template exists in your [TWP___TEMPLATE_PATH](#twp___template_path).
 
 #####Using The Loop
 [The Loop](http://codex.wordpress.org/The_Loop) is very central for Wordpress. As a result, I've tried to make an implementation for use in Twig.  
