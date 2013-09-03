@@ -344,7 +344,7 @@ function TWP__template()
 	foreach ($templates as $template)
 	{
 		if (file_exists($template)) {
-			$tpl = basename($template);
+			$tpl = str_replace(TWP___TEMPLATE_PATH, '', $template);
 			break;
 		}
 	}
