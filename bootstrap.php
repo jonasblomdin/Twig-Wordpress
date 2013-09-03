@@ -189,7 +189,9 @@ if (defined('TWP___CACHE_PATH') && TWP___ADMIN) {
  */
 function TWP__metabox()
 {
-  if ($types = unserialize(TWP___CUSTOM_TEMPLATE_TYPES)) {
+  if ($custom_types = unserialize(TWP___CUSTOM_TEMPLATE_TYPES)) {
+    $post_types = get_post_types();
+    $types = array_intersect($post_types, $custom_types);
     foreach ($types as $type)
     {
       if (count(Twig_TWP_Admin::getTemplates($type)) > 0) {
