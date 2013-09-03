@@ -353,9 +353,10 @@ add_action('template_redirect', 'TWP__template');
  *
  * Load Twig thru index template
  *
+ * @param string $template
  * @return string
  */
-function TWP_index() 
+function TWP_index($template) 
 {
   return dirname(__FILE__).'/index.php';
 }
