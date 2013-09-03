@@ -156,7 +156,7 @@ function TWP__init()
 		'loop' => new Twig_TWP_Loop
   );
   
-  do_action('TWP__init', $twig, $params);
+  do_action_ref_array('TWP__init', array($twig, &$params));
 }
 add_action('init', 'TWP__init', 10, 2);
 
