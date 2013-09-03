@@ -4,6 +4,6 @@
 <select name="{{ name }}">
   <option value="">{{ wp.__('Default Template') }}</option>
 {% for file, name in templates %}
-  <option value="{{ file }}">{{ name }}</option>
+  <option value="{{ file }}"{% if value == file %} selected="selected"{% endif %}>{{ name }}</option>
 {% endfor %}
 </select>
