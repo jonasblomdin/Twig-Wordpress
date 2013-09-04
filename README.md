@@ -71,7 +71,7 @@ With that in place, you can now use the altered post properties in Twig.
 ```
 
 #####Custom templates
-Every post, regardless of type, can also use [Custom Templates](http://codex.wordpress.org/Page_Templates). 
+Every post, regardless of type, can also use [Custom Templates](http://codex.wordpress.org/Page_Templates). They are configured similarly to Wordpress custom templates in that they have a particular style of Twig comment at the top of them.  
 You can specify both name and which post types your custom template should be available for. The *Template Name* is required and the *Post Type* is optional. If no *Post Type* is provided, the template will be available for all post types.
 ```jinja
 {#
@@ -146,6 +146,20 @@ function my_options($options)
   return $options;
 }
 add_filter('TWP__options', 'my_options');
+```
+
+#####TWP\__templates\_list
+This filter runs when the custom Twig templates has been fetched.
+This example adds a custom template for pages, which doesn't have a Twig comment at the top.
+```php
+function my_templates_list($templates, $post_type)
+{
+  if ($post_type == 'page') {
+    $templates['my-custom-page-template-without-comment.html.twig'] = __('My Custom Page Template Without Comment');
+  }
+  return $templates;
+}
+add_filter('TWP__templates_list', 'my_templates_list', 1, 2);
 ```
 
 #####TWP__template

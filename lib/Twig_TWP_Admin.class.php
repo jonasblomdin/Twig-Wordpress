@@ -108,7 +108,7 @@ class Twig_TWP_Admin
       $header = trim(preg_replace("/\s*(?:\*\/|#}).*/", '', $header[1]));
       $templates[$file] = $header;
     }
-    return $templates;
+    return apply_filters('TWP__templates_list', $templates, $post_type);
   }
   
   /**
