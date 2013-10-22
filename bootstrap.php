@@ -148,7 +148,7 @@ function TWP__init()
     'cache' => defined('TWP___CACHE_PATH') ? TWP___CACHE_PATH : false
   );
 	$twig = new Twig_TWP_Environment(
-    new Twig_Loader_Filesystem(TWP___TEMPLATE_PATH), 
+    new Twig_Loader_Filesystem(TWP___TWIG_ROOT), 
     apply_filters('TWP__options', $options)
   );
 	$params = array(
@@ -344,7 +344,7 @@ function TWP__template()
 	foreach ($templates as $template)
 	{
 		if (file_exists($template)) {
-			$tpl = str_replace(TWP___TEMPLATE_PATH, '', $template);
+			$tpl = str_replace(TWP___TWIG_ROOT, '', $template);
 			break;
 		}
 	}

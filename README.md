@@ -86,10 +86,10 @@ Post Type: page, post
 Twig debug flag. Defaults to *WP_DEBUG* constant value. Note that enabling [TWP___DEBUG](#twp___debug) disables the Twig template cache, even though [TWP___CACHE_PATH](#twp___cache_path) is set.
 
 #####TWP___TWIG_ROOT
-Twig root path. Defaults to a folder named "twig", including a trailing slash , within your Twig-Wordpress directory.
+Twig root path. Defaults to a folder named "twig", including a trailing slash , within your Twig-Wordpress directory. When requesting your Twig templates, they should be relative to this folder.
 
 #####TWP___TEMPLATE_PATH
-Twig template path. Defaulta to a folder named "templates", including a trailing slash, within [TWP___TWIG_ROOT](#twp___twig_root).
+Twig template path. Defaulta to a folder named "templates", including a trailing slash, within [TWP___TWIG_ROOT](#twp___twig_root). By default, Twig will look in this folder for every template during bootstrap.
 
 #####TWP___CACHE_PATH
 Twig cache path. A writeable folder for your Twig template cache.
