@@ -116,9 +116,10 @@ define(
 
 /**
  *
- * Load Twig
+ * Autoload Twig
  */
 require_once dirname(__FILE__).'/vendor/Twig/lib/Twig/Autoloader.php';
+Twig_Autoloader::register();
 
 /**
  *
@@ -139,9 +140,6 @@ spl_autoload_register(function($name) {
 function TWP__init()
 {
 	global $twig, $params;
-  
-	Twig_Autoloader::register();
-	Twig_TWP_Proxy::register();
   
   $options = array(
     'debug' => defined('TWP___DEBUG') ? TWP___DEBUG : WP_DEBUG,
