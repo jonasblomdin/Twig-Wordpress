@@ -1,0 +1,17 @@
+{
+  "name": "hoku/twig-wordpress",
+  "type": "library",
+  "description": "The Twig implementation for Wordpress themes",
+  "keywords": ["wordpress", "twig", "templating"],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Jonas Blomdin",
+      "email": "jonas@hoku.am"
+    }
+  ],
+  "require": {
+    "php": ">=5.2.4",
+    "twig/twig": "~1.11"
+  }
+}
