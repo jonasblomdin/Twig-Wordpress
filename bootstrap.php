@@ -116,13 +116,6 @@ define(
 
 /**
  *
- * Autoload Twig
- */
-require_once dirname(__FILE__).'/vendor/Twig/lib/Twig/Autoloader.php';
-Twig_Autoloader::register();
-
-/**
- *
  * Autoload dependencies
  */
 spl_autoload_register(function($name) {
