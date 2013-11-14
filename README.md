@@ -5,17 +5,27 @@ An implementation which aims to bring the [Twig Template Engine](http://twig.sen
 
 ##Install
 
-Twig-Wordpress should be required from your theme and comes with Twig as a submodule.  
-Download the source into the theme you want to use Twig in.  
-For git users, clone the repository.
+The recommended way to install Twig-Wordpress is via Composer.  
+Install composer in your project:
 ```bash
-git clone --recursive https://github.com/jonasblomdin/Twig-Wordpress twig-wordpress
+curl -s http://getcomposer.org/installer | php
 ```
-For subversion users, add it as an external.
+
+Create a composer.json file in your project root:
+```json
+{
+  "require": {
+    "hoku/twig-wordpress": "dev-master"
+  }
+}
+```
+
+Install via composer.
 ```bash
-svn propset svn:externals twig-wordpress https://github.com/jonasblomdin/Twig-Wordpress/trunk
+php composer.phar install
 ```
-To get started, we create the folder structure that's' necessary for Twig-Wordpress to work.   
+
+To get started, we create the folder structure that's' necessary inside your theme for Twig-Wordpress to work.   
 You can change this to whatever you like.
 
     your-theme
@@ -24,12 +34,12 @@ You can change this to whatever you like.
           index.html.twig
           ..
 
-Define your constants and load the bootstrap.  
+Define your constants and then require the autoloader for composer.  
 To match the folder structure above, put this inside your *functions.php*.
 ```php
 define('TWP___TWIG_ROOT', get_template_directory().'/twig/');
 define('TWP___TEMPLATE_PATH', TWP___TWIG_ROOT.'templates/'); // This could be omitted because it's the default
-require 'twig-wordpress/bootstrap.php';
+require_once '/path/to/vendor/autoload.php';
 ```
 
 ##Templates
