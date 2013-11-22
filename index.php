@@ -3,5 +3,5 @@
  *
  * Load and display template
  */
-$template = $twig->loadTemplate($tpl);
+$template = $twig->loadTemplate($tpl, null, true);
 $template->display($params);

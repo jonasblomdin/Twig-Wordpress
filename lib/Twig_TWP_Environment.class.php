@@ -28,11 +28,12 @@ class Twig_TWP_Environment extends Twig_Environment
 	 * @see Twig_Environment::loadTemplate
    * @param string  $name The template name
    * @param integer $index The index if it is an embedded template
+   * @param bool $root Boolean to determine is this template is the main template loaded by index.php or not
    * @return Twig_TemplateInterface A template instance representing the given template name
    */
-  public function loadTemplate($name, $index = null)
+  public function loadTemplate($name, $index = null, $root = false)
 	{
-		$name = apply_filters('TWP__template', $name, $index);
+		$name = apply_filters('TWP__template', $name, $index, $root);
     return parent::loadTemplate($name, $index);
 	}
 }

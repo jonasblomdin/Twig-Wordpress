@@ -174,16 +174,17 @@ add_filter('TWP__templates_list', 'my_templates_list', 1, 2);
 
 #####TWP__template
 This filter runs when the Twig template has been found.  
+It provides the template path, index and a boolean representation for if the template is loaded by index.php or not.  
 This example loads 'happy-new-year.html.twig' as the template on new years eve.
 ```php
-function my_template($name, $index)
+function my_template($name, $index, $root)
 {
   if (date('m/d', time()) == '12/31') {
     return 'happy-new-year.html.twig';
   }
   return $name;
 }
-add_filter('TWP__template', 'my_template', 1, 2);
+add_filter('TWP__template', 'my_template', 1, 3);
 ```
 
 #####TWP\__template\_(type)
