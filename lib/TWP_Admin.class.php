@@ -1,13 +1,12 @@
 <?php
-
 /**
  *
  * Twig-Wordpress Admin
  */
-class Twig_TWP_Admin
+class TWP_Admin
 {
   
-  private $nonce = 'twp_nonce';
+  private $nonce = '_twpnonce';
   
   /**
    *
@@ -26,11 +25,11 @@ class Twig_TWP_Admin
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->validate()) {
         $twig->clearCacheFiles();
-        $data['message'] = 'The Twig cache was successfully cleared';
-      } else $data['error'] = 'Nonce is invalid';
+        $data['message'] = __('The Twig cache was successfully cleared', TWP___DOMAIN);
+      } else $data['error'] = __('Nonce is invalid', TWP___DOMAIN);
     }
     $twig->setCache(false);
-    $twig->setLoader(new Twig_Loader_Filesystem(sprintf('%s/twig/templates/', TWP___ROOT)));
+    $twig->setLoader(new Twig_Loader_Filesystem(sprintf('%s/twig/templates/', TWP__ROOT)));
     $twig->display('admin-cache.html.twig', $params);
   }
   
@@ -51,7 +50,7 @@ class Twig_TWP_Admin
       'value' => get_post_meta($post->ID, TWP___CUSTOM_TEMPLATE, true),
       'templates' => self::getTemplates());
     $twig->setCache(false);
-    $twig->setLoader(new Twig_Loader_Filesystem(sprintf('%s/twig/templates/', TWP___ROOT)));
+    $twig->setLoader(new Twig_Loader_Filesystem(sprintf('%s/twig/templates/', TWP__ROOT)));
     $twig->display('admin-metabox.html.twig', $params);
   }
   

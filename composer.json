@@ -1,7 +1,7 @@
 {
   "name": "hoku/twig-wordpress",
   "type": "library",
-  "description": "The Twig implementation for Wordpress themes",
+  "description": "The Twig implementation for WordPress themes",
   "keywords": ["wordpress", "twig", "templating"],
   "license": "BSD-3-Clause",
   "authors": [

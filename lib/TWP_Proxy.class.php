@@ -1,10 +1,9 @@
 <?php
-
 /**
  *
  * Twig-Wordpress environemntal proxy
  */
-class Twig_TWP_Proxy
+class TWP_Proxy
 {
 	
 	/**

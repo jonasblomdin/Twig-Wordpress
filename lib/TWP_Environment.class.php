@@ -1,10 +1,9 @@
 <?php
-
 /**
  *
  * Twig-Wordpress Environment
  */
-class Twig_TWP_Environment extends Twig_Environment
+class TWP_Environment extends Twig_Environment
 {
 	
   /**

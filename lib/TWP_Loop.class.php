@@ -1,10 +1,9 @@
 <?php
-
 /**
  *
  * Twig-Wordpress "The Loop" based while iterator
  */
-class Twig_TWP_Loop implements Iterator 
+class TWP_Loop implements Iterator 
 {
 	
 	/**
