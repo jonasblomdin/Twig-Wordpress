@@ -49,7 +49,7 @@ The bootstrap loads the correct template based on it's hierarchy and if the temp
 
 #####Using The Loop
 [The Loop](http://codex.wordpress.org/The_Loop) is very central for Wordpress. As a result, I've tried to make an implementation for use in Twig.  
-The *loop* property is an instance of the *Twig\_TWP\_Loop* class, which is an iterator with Wordpress flavor.  
+The *loop* property is an instance of the *TWP\_Loop* class, which is an iterator with Wordpress flavor.  
 It's *current* method will return the current global *$post*, after [the_post](http://codex.wordpress.org/Function_Reference/the_post) has been called.
 ```jinja
 {% for post in loop %}
@@ -119,7 +119,7 @@ Twig-Wordpress template path. Defaulta to a folder named "templates", including 
 ##Actions
 
 #####TWP__init
-This action is triggered just after the *Twig\_TWP\_Environment* is instantiated. It provides the environment instance and params as it's parameters.  
+This action is triggered just after the *TWP\_Environment* is instantiated. It provides the environment instance and params as it's parameters.  
 This example adds the [Debug Extension](http://twig.sensiolabs.org/doc/extensions/debug.html) to Twig.
 ```php
 function my_init($twig, $params)
@@ -139,7 +139,7 @@ add_action('TWP__init', 'my_init', 1, 2);
 ```
 
 #####TWP__environemnt
-This action is triggered in the constructor of *Twig\_TWP\_Environment*. It provides the environment instance as it's only parameter.  
+This action is triggered in the constructor of *TWP\_Environment*. It provides the environment instance as it's only parameter.  
 This example adds the [query_posts](http://codex.wordpress.org/Function_Reference/query_posts) function to Twig.
 ```php
 function my_environment($environment)
@@ -152,7 +152,7 @@ add_action('TWP__environemnt', 'my_environment');
 ##Filters
 
 #####TWP__options
-This filter runs just before the *Twig\_TWP\_Environment* is instantiated. It provides the environment options as it's only parameter.  
+This filter runs just before the *TWP\_Environment* is instantiated. It provides the environment options as it's only parameter.  
 Remember that this filter is executed after the [TWP___DEBUG](#twp___debug) and [TWP___CACHE_PATH](#twp___cache_path) constants has been assigned to the options, so changes here will override them.  
 This example disables auto-escaping for Twig.
 ```php
