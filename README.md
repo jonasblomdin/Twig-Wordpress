@@ -3,7 +3,7 @@ Twig-Wordpress
 
 An implementation which aims to bring the [Twig Template Engine](http://twig.sensiolabs.org) to [Wordpress](http://wordpress.org) with flexibility and as little hassle as possible.
 
-##Install
+## Install
 
 The recommended way to install Twig-Wordpress is via Composer.  
 Install composer in your project:
@@ -42,12 +42,12 @@ define('TWP___TEMPLATE_PATH', TWP___TWIG_ROOT.'templates/'); // This could be om
 require_once '/path/to/vendor/autoload.php';
 ```
 
-##Templates
+## Templates
 
 The [Template Hierarchy](http://codex.wordpress.org/Template_Hierarchy) used is the same as for Wordpress. The file extension is twig though, instead of php.  
 The bootstrap loads the correct template based on it's hierarchy and if the template file exists. So make sure your template exists in your [TWP___TEMPLATE_PATH](#twp___template_path).
 
-#####Using The Loop
+##### Using The Loop
 [The Loop](http://codex.wordpress.org/The_Loop) is very central for Wordpress. As a result, I've tried to make an implementation for use in Twig.  
 The *loop* property is an instance of the *TWP\_Loop* class, which is an iterator with Wordpress flavor.  
 It's *current* method will return the current global *$post*, after [the_post](http://codex.wordpress.org/Function_Reference/the_post) has been called.
@@ -80,7 +80,7 @@ With that in place, you can now use the altered post properties in Twig.
 {% endfor %}
 ```
 
-#####Custom templates
+##### Custom templates
 Every post, regardless of type, can also use [Custom Templates](http://codex.wordpress.org/Page_Templates). They are configured similarly to Wordpress custom templates in that they have a particular style of Twig comment at the top of them.  
 You can specify both name and which post types your custom template should be available for. The *Template Name* is required and the *Post Type* is optional. If no *Post Type* is provided, the template will be available for all post types.
 ```jinja
@@ -90,35 +90,35 @@ Post Type: page, post
 #}
 ```
 
-##Constants
+## Constants
 
-#####TWP___ADMIN
-Twig-Wordpress admin flag. Use it to activate, when [TWP___CACHE_PATH](#twp___cache_path) also has been set, an admin menu item which can be used to clear the Twig cache. Defaults to true. 
+##### TWP___ADMIN
+Twig-Wordpress admin flag. Use it to activate, when [TWP___CACHE_PATH](#twp___cache_path) also has been set, an admin menu item which can be used to clear the Twig cache. Defaults to true.
 
-#####TWP___CACHE_PATH
+##### TWP___CACHE_PATH
 Twig cache path. A writeable folder for your Twig template cache.
 
-#####TWP\___CUSTOM\_TEMPLATE
+##### TWP\___CUSTOM\_TEMPLATE
 Twig-Wordpress custom templates meta name. Defaults to "_wp_twig_template".
 
-#####TWP\___CUSTOM\_TEMPLATE\_TYPES
+##### TWP\___CUSTOM\_TEMPLATE\_TYPES
 Twig-Wordpress custom templates types. Use it to override which post types that should have the custom template options or use false to disable custom templates. The value must be either false or a serialized array with the post types as values. Defaults to a serialized array containing the values page and post.
 
-#####TWP___DEBUG
+##### TWP___DEBUG
 Twig debug flag. Defaults to *WP_DEBUG* constant value. Note that enabling [TWP___DEBUG](#twp___debug) disables the Twig template cache, even though [TWP___CACHE_PATH](#twp___cache_path) is set.
 
-#####TWP___DOMAIN
+##### TWP___DOMAIN
 Twig-Wordpress domain used for i18n. Defaults to "default".
 
-#####TWP___TWIG_ROOT
+##### TWP___TWIG_ROOT
 Twig root path. Defaults to a folder named "twig", including a trailing slash, within the Twig-Wordpress directory. When requesting your Twig templates, they should be relative to this folder.
 
-#####TWP___TEMPLATE_PATH
+##### TWP___TEMPLATE_PATH
 Twig-Wordpress template path. Defaulta to a folder named "templates", including a trailing slash, within [TWP___TWIG_ROOT](#twp___twig_root). By default, Twig will look in this folder for every template during bootstrap.
 
-##Actions
+## Actions
 
-#####TWP__init
+##### TWP__init
 This action is triggered just after the *TWP\_Environment* is instantiated. It provides the environment instance and params as it's parameters.  
 This example adds the [Debug Extension](http://twig.sensiolabs.org/doc/extensions/debug.html) to Twig.
 ```php
@@ -138,7 +138,7 @@ function my_init($twig, $params)
 add_action('TWP__init', 'my_init', 1, 2);
 ```
 
-#####TWP__environemnt
+##### TWP__environemnt
 This action is triggered in the constructor of *TWP\_Environment*. It provides the environment instance as it's only parameter.  
 This example adds the [query_posts](http://codex.wordpress.org/Function_Reference/query_posts) function to Twig.
 ```php
@@ -149,9 +149,9 @@ function my_environment($environment)
 add_action('TWP__environemnt', 'my_environment');
 ```
 
-##Filters
+## Filters
 
-#####TWP__options
+##### TWP__options
 This filter runs just before the *TWP\_Environment* is instantiated. It provides the environment options as it's only parameter.  
 Remember that this filter is executed after the [TWP___DEBUG](#twp___debug) and [TWP___CACHE_PATH](#twp___cache_path) constants has been assigned to the options, so changes here will override them.  
 This example disables auto-escaping for Twig.
@@ -164,7 +164,7 @@ function my_options($options)
 add_filter('TWP__options', 'my_options');
 ```
 
-#####TWP\__templates\_list
+##### TWP\__templates\_list
 This filter runs when the custom Twig templates has been fetched.
 This example adds a custom template for pages, which doesn't have a Twig comment at the top.
 ```php
@@ -178,7 +178,7 @@ function my_templates_list($templates, $post_type)
 add_filter('TWP__templates_list', 'my_templates_list', 1, 2);
 ```
 
-#####TWP__template
+##### TWP__template
 This filter runs when the Twig template has been found.  
 It provides the template path, index and a boolean representation for if the template is loaded by index.php or not.  
 This example loads 'happy-new-year.html.twig' as the template on new years eve.
@@ -193,7 +193,7 @@ function my_template($name, $index, $root)
 add_filter('TWP__template', 'my_template', 1, 3);
 ```
 
-#####TWP\__template\_(type)
+##### TWP\_\_template\_(type)
 The template filters runs when the default Twig templates are declared.  
 This example changes the 404 template name to *not-found.html.twig*.
 ```php
@@ -223,7 +223,7 @@ The following template filters are available.
 - TWP\__template\_paged
 - TWP\__template\_index
 
-#####TWP\__template\_(type)-override
+##### TWP\_\_template\_(type)-override
 The override template filter runs when the Twig templates, wihich override the defaults, are declared.  
 Note that each overridable template filter need to include "%s", which is a placeholder for the object property.  
 This example changes the taxonomy override template, which now can be found in the folder "override".
