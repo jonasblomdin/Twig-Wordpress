@@ -1,6 +1,9 @@
 Twig-Wordpress
 ==============
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)](https://bitbucket.org/lbesson/ansi-colors)
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
+This is no longer supported, please consider using [Timber](https://github.com/timber/timber) instead.  
 An implementation which aims to bring the [Twig Template Engine](http://twig.sensiolabs.org) to [Wordpress](http://wordpress.org) with flexibility and as little hassle as possible.
 
 ## Install
